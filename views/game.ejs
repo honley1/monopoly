@@ -1,0 +1,53 @@
+<div class="container">
+  <h1 class="title">Game Started — Room: <%= code %></h1>
+
+  <div class="board">
+    <% board.forEach(cell => { %>
+      <div class="cell cell-<%= cell.type %>">
+        <div class="cell-index">#<%= cell.index %></div>
+        <div class="cell-name"><%= cell.name %></div>
+
+        <% players.forEach(p => { %>
+          <% if (p.position === cell.index) { %>
+            <div class="token"><%= p.name.charAt(0).toUpperCase() %></div>
+          <% } %>
+        <% }) %>
+      </div>
+    <% }) %>
+  </div>
+
+  <button id="roll-btn" class="btn-secondary" style="margin-top: 20px;">
+    Roll Dice 🎲
+  </button>
+
+  <div class="hud">
+    <p>Players:</p>
+    <ul>
+      <% players.forEach(p => { %>
+        <li>
+          <%= p.name %> — 💰 <%= p.balance %> — 🧩 pos: <%= p.position %>
+          <% if (!p.isOnline) { %> <span style="color: red;">(offline)</span> <% } %>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+</div>
+
+<script>
+  const socket = io();
+  const roomCode = "<%= code %>";
+  const userId = localStorage.getItem('userId');
+
+  socket.on('connect', () => {
+    socket.emit('rejoinRoom', { code: roomCode, userId });
+  });
+
+  document.getElementById('roll-btn').addEventListener('click', () => {
+    socket.emit('rollDice', { code: roomCode });
+  });
+
+  socket.on('movePlayer', ({ playerId, position, dice }) => {
+    console.log(`🎲 ${playerId} rolled ${dice.join(' + ')} = ${dice[0] + dice[1]}`);
+    window.location.reload(); // можно заменить на перерисовку DOM позже
+  });
+</script>

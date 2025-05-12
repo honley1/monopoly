@@ -1,0 +1,45 @@
+<div class="container">
+  <h1 class="title">Room Code: <%= code %></h1>
+
+  <h2 class="subtitle">Players:</h2>
+  <ul id="player-list" class="player-list"></ul>
+
+  <button id="start-btn" class="btn-secondary" style="margin-top: 20px; display: none;">
+    Start Game
+  </button>
+</div>
+
+<script>
+  const socket = io();
+  const roomCode = "<%= code %>";
+
+  let mySocketId;
+
+  socket.on('connect', () => {
+    mySocketId = socket.id;
+    const userId = localStorage.getItem('userId');
+    socket.emit('rejoinRoom', { code: roomCode, userId });
+  });
+
+  socket.on('playerList', (players) => {
+    const list = document.getElementById('player-list');
+    list.innerHTML = '';
+
+    players.forEach((player, index) => {
+      const li = document.createElement('li');
+      li.textContent = (index === 0 ? '(Host) ' : '') + player.name;
+      list.appendChild(li);
+    });
+
+    const isHost = players[0]?.socketId === mySocketId;
+    document.getElementById('start-btn').style.display = isHost ? 'block' : 'none';
+  });
+
+  document.getElementById('start-btn').addEventListener('click', () => {
+    socket.emit('startGame', { code: roomCode });
+  });
+
+  socket.on('gameStarted', () => {
+    window.location.href = `/game/${roomCode}`;
+  });
+</script>

@@ -1,0 +1,43 @@
+<div class="container">
+  <h1 class="title">🎲 Monopoly</h1>
+
+  <form id="join-form" class="form">
+    <input type="text" id="code" name="code" placeholder="Enter Room Code" required />
+    <button type="submit">Join Room</button>
+  </form>
+
+  <div class="divider">or</div>
+
+  <button id="create-btn" class="btn-secondary">Create New Room</button>
+</div>
+
+<script>
+  const socket = io();
+
+  let userId = localStorage.getItem('userId');
+  if (!userId) {
+    userId = crypto.randomUUID();
+    localStorage.setItem('userId', userId);
+  }
+
+  document.getElementById('join-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const code = document.getElementById('code').value.trim().toUpperCase();
+    if (!code) return alert('Enter room code');
+    const name = prompt("Enter your name:");
+    if (!name) return alert("Name is required");
+    socket.emit('joinRoom', { name, code, userId });
+  });
+
+  document.getElementById('create-btn').addEventListener('click', () => {
+    const name = prompt("Enter your name:");
+    if (!name) return alert("Name is required");
+    socket.emit('createRoom', { name, userId });
+  });
+
+  socket.on('roomJoined', ({ code }) => {
+    window.location.href = `/room/${code}`;
+  });
+
+  socket.on('errorMessage', msg => alert(msg));
+</script>

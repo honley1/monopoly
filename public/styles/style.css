@@ -1,0 +1,168 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  padding: 60px 20px;
+}
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.title {
+  font-size: 32px;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input[type="text"] {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+
+button {
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.btn-secondary {
+  background: #28a745;
+}
+
+.btn-secondary:hover {
+  background: #1e7e34;
+}
+
+.divider {
+  margin: 20px 0;
+  font-size: 14px;
+  color: #777;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #ccc;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.subtitle {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.player-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 250px;
+  text-align: left;
+}
+
+.player-list li {
+  background: #f1f1f1;
+  padding: 10px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  margin: 30px auto;
+  max-width: 800px;
+}
+
+.cell {
+  background: #fafafa;
+  border: 1px solid #ccc;
+  padding: 8px;
+  min-height: 70px;
+  position: relative;
+  border-radius: 6px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cell-go { background: #d4edda; }
+.cell-tax { background: #f8d7da; }
+.cell-chance { background: #d1ecf1; }
+.cell-jail { background: #ffeeba; }
+.cell-free { background: #e2e3e5; }
+.cell-go-to-jail { background: #f5c6cb; }
+
+.cell-name {
+  font-weight: bold;
+  color: #333;
+}
+
+.cell-index {
+  font-size: 10px;
+  color: #777;
+}
+
+.token {
+  background: #007bff;
+  color: white;
+  padding: 4px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 12px;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+}
+
+.hud {
+  max-width: 500px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
